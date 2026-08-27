@@ -11,11 +11,11 @@ The workflow expects the data (CT, true labels, predicted labels) as NIfTI files
 
 ```text
 imagesTs/
-	HNC-B_001_0000.nii.gz
+	[patient identifier]_0000.nii.gz
 labelsTs_true/
-	HNC-B_001.nii.gz
+	[patient identifier].nii.gz
 labelsTs_pred/
-	HNC-B_001.nii.gz
+	[patient identifier].nii.gz
 ```
 
 The CT filename must end in `_0000.nii` or `_0000.nii.gz`. The ground-truth and prediction files use the same patient stem without `_0000`. All three arrays must have the same shape. Prediction and ground-truth values are interpreted as integer labels, with `0` as background.
