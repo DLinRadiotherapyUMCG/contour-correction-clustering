@@ -45,9 +45,6 @@ python optimise_clustering.py --config configs/my_config.json
 python generate_contour_alternatives_final.py --config configs/my_config.json
 ```
 
-When `--config` is left blank, both scripts use `configs/generation.local.json`.
-
-
 ### Step 1: Optimise clustering
 
 Run [optimise_clustering.py](optimise_clustering.py). It calls the function `optimise_clustering(config)` from [workflows/optimise.py](src/contour_alternatives/workflows/optimise.py). It tests different clustering parameters separately for each patient and OAR, then writes `custom_tuning_results.csv` with the hyperparameter tuning results.
