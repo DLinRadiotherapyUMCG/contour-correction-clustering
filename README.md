@@ -26,8 +26,8 @@ You can specify the paths (and other variables) as a config file. You can copy
 [configs/generation.example.json](configs/generation.example.json), edit its paths (and other variables), and run the two scripts in order:
 
 ```powershell
-python optimise_clustering.py
-python generate_contour_alternatives_final.py
+python optimise_clustering.py --config configs/[your config file].json
+python generate_contour_alternatives_final.py --config configs/[your config file].json
 ```
 
 You can also call the functions directly from a small Python file:
