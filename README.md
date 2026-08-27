@@ -109,7 +109,7 @@ maximise ( alpha * S_cart_bar + (1 - alpha) * S_sph_bar - lambda * max(0, K - 30
 - `K` number of clusters; `lambda = 0.1` penalises trials with `K > 30` to discourage over-fragmentation.
 - `alpha` fixed weight balancing the two coherence terms (see below).
 
-**`alpha`** controls how much spatial vs. directional coherence matters: `1` = location only, `0` = direction only. The default `0.8` favours location, so edits are grouped mainly by proximity, with direction as a secondary criterion. It's a fixed setting, not tuned by Optuna.
+**`alpha`** controls how much spatial vs. directional coherence matters: `1` = location only, `0` = direction only. The default `0.8` favours location, so edits are grouped mainly by proximity, with direction as a secondary criterion.
 
 The next workflow uses this CSV to select the highest-scoring parameter combination separately for each patient and OAR. At present, the optimisation implementation uses HDBSCAN for the trials; support for tuning DBSCAN separately can be added later if needed.
 
