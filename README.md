@@ -78,21 +78,23 @@ The clustering workflow:
     c. Repeat the trial process, with 50 trials by default.
 5. Write all trial results to `custom_tuning_results.csv` using semicolon separators.
 
-## Hyperparameters
+# Hyperparameters
 
 Optuna searches for:
-
-- `weight_spatial`: weight applied to the spatial origin features.
-- `weight_radial_distance`: weight applied to radial edit distance.
-- `weight_angle`: weight applied to the angular edit features.
-- `min_samples`: minimum number of samples required by HDBSCAN to identify a dense region.
+| Parameter | Meaning |
+| --- | --- |
+| `weight_spatial` | Weight applied to the spatial origin features |
+| `weight_radial_distance` | Weight applied to radial edit distance |
+| `weight_angle` | Weight applied to the angular edit features |
+| `min_samples` | Minimum number of samples required by HDBSCAN to identify a dense region. |
 
 The following values are configured rather than optimised in the current implementation:
-
-- `min_cluster_size`: fixed at `2`.
-- `n_trials`: number of Optuna trials, default `50`.
-- `optimisation_goal`: `silhouette`, `db`, or `custom`.
-- `alpha`: weighting of spatial coherence versus edit-feature coherence in the `custom` score, default `0.8`.
+| Parameter | Meaning |
+| --- | --- |
+| `min_cluster_size` | fixed at `2`. |
+| `n_trials` | number of Optuna trials, default `50`. |
+| `optimisation_goal` | `silhouette`, `db`, or `custom`. |
+| `alpha` | weighting of spatial coherence versus edit-feature coherence in the `custom` score, default `0.8`. |
 
 The next workflow uses this CSV to select the highest-scoring parameter combination separately for each patient and OAR. At present, the optimisation implementation uses HDBSCAN for the trials; support for tuning DBSCAN separately can be added later if needed.
 
