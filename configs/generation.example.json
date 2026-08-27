@@ -1,0 +1,19 @@
+{
+  "paths": {
+    "ct": "Path/to/your/project/data/imagesTs",
+    "ground_truth": "Path/to/your/project/data/labelsTs_true",
+    "prediction": "Path/to/your/project/data/labelsTs_pred",
+    "alternatives": "Path/to/your/project/outputs/labelsTs_pred_alt",
+    "tuning_results": "Path/to/your/project/outputs/hyperparameter_tuning/custom_tuning_results.csv",
+    "tuning_output": "Path/to/your/project/outputs/hyperparameter_tuning/custom_tuning_results.csv"
+  },
+  
+  "margin": 5,
+  "dilation_size": 2,
+  "edit_threshold": 1.0,
+  "clustering_algorithm": "HDBSCAN",
+  "use_tuned_hyperparameters": true,
+  "dbscan_eps": 0.5,
+  "spatial_features": ["Origin_x", "Origin_y", "Origin_z"],
+  "edit_features": ["radial distance", "elevation angle", "angle of rotation"]
+}

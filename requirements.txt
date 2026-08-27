@@ -1,0 +1,14 @@
+numpy
+pandas
+scipy
+scikit-learn
+scikit-image
+nibabel
+tqdm
+optuna
+surface-distance
+seg-metrics
+openpyxl
+pydicom
+rt-utils
+SimpleITK
