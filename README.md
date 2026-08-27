@@ -5,9 +5,9 @@ This is the first release of the research code. For any questions or comments pl
 
 Email: j.e.van.aalst@umcg.nl | joelle.vanaalst@live.nl
 
-## Input layout
+## Data expectation
 
-The generation workflow expects matching NIfTI files in three directories:
+The workflow expects the data (CT, true labels, predicted labels) as NIfTI files in three directories:
 
 ```text
 imagesTs/
@@ -20,7 +20,7 @@ labelsTs_pred/
 
 The CT filename must end in `_0000.nii` or `_0000.nii.gz`. The ground-truth and prediction files use the same patient stem without `_0000`. All three arrays must have the same shape. Prediction and ground-truth values are interpreted as integer labels, with `0` as background.
 
-## Generate alternatives
+## How to get the code to run?
 
 You can specify the paths (and other variables) as a config file. You can copy
 [configs/generation.example.json](configs/generation.example.json), edit its paths (and other variables), and run the two scripts in order:
@@ -28,6 +28,18 @@ You can specify the paths (and other variables) as a config file. You can copy
 ```powershell
 python optimise_clustering.py
 python generate_contour_alternatives_final.py
+```
+
+You can also call the functions directly from a small Python file:
+
+```python
+from contour_alternatives.config import GenerationConfig
+from contour_alternatives.workflows.optimise import optimise_clustering
+from contour_alternatives.workflows.generate import generate_contour_alternatives
+
+config = GenerationConfig.from_json("configs/generation.local.json")
+optimise_clustering(config)
+generate_contour_alternatives(config)
 ```
 
 ## Quick start
@@ -38,7 +50,7 @@ To use the files you need to download the folder, open a terminal in that folder
 python -m pip install -r requirements.txt
 ```
 
-This installs the dependencies for the generation and clustering-optimisation workflows, including NumPy, SciPy, scikit-learn, scikit-image, nibabel, Optuna, segmentation metrics, and Excel output. It also includes the DICOM packages needed by the dosimetric workflow.
+This installs the dependencies for the generation and clustering-optimisation workflows.
 
 Then you can run the workflows in order:
 
@@ -47,7 +59,12 @@ python optimise_clustering.py --config configs/my_config.json
 python generate_contour_alternatives_final.py --config configs/my_config.json
 ```
 
-### Step 1: Optimise clustering
+### Functionality of the script
+The script has two functions, executed in two steps:
+1. Optimising the hyperparameter tuning for the clustering algorithm (using Optuna)
+2. Executing the clustering to generate contour alternatives
+
+## Step 1: Optimise clustering
 
 Run [optimise_clustering.py](optimise_clustering.py). It calls the function `optimise_clustering(config)` from [workflows/optimise.py](src/contour_alternatives/workflows/optimise.py). It tests different clustering parameters separately for each patient and OAR, then writes `custom_tuning_results.csv` with the hyperparameter tuning results.
 
@@ -61,7 +78,7 @@ The clustering workflow:
     c. Repeat the trial process, with 50 trials by default.
 5. Write all trial results to `custom_tuning_results.csv` using semicolon separators.
 
-### Hyperparameters
+## Hyperparameters
 
 Optuna searches for:
 
@@ -79,21 +96,9 @@ The following values are configured rather than optimised in the current impleme
 
 The next workflow uses this CSV to select the highest-scoring parameter combination separately for each patient and OAR. At present, the optimisation implementation uses HDBSCAN for the trials; support for tuning DBSCAN separately can be added later if needed.
 
-### Step 2: Generate alternatives
+## Step 2: Generate alternatives
 
 Run [generate_contour_alternatives_final.py](generate_contour_alternatives_final.py). It calls `generate_contour_alternatives(config)` from [workflows/generate.py](src/contour_alternatives/workflows/generate.py). When `use_tuned_hyperparameters` is `true`, it reads the tuning CSV and selects the highest-scoring settings for each patient/OAR pair. When it is `false`, it uses the defaults in the workflow.
-
-You can also call the functions directly from a small Python file:
-
-```python
-from contour_alternatives.config import GenerationConfig
-from contour_alternatives.workflows.optimise import optimise_clustering
-from contour_alternatives.workflows.generate import generate_contour_alternatives
-
-config = GenerationConfig.from_json("configs/generation.local.json")
-optimise_clustering(config)
-generate_contour_alternatives(config)
-```
 
 The generation workflow:
 
@@ -124,6 +129,7 @@ Both scripts expect a config file, with the following fields:
 
 Set `use_tuned_hyperparameters` to `false` and remove `paths.tuning_results` if you want to use defaults only. During the two-step workflow, `paths.tuning_output` and `paths.tuning_results` should point to the same file.
 
+
 ## Outputs
 
 For a patient/OAR/cluster combination, the workflow writes:
@@ -134,3 +140,6 @@ For a patient/OAR/cluster combination, the workflow writes:
 ```
 
 It also writes `Statistics.xlsx` with spatial cluster results, spatial region results, volume results, and geometric accuracy results. 
+
+## Known limitations
+- The code now also needs a CT, this was necessary for other functionality that this script was used for and is (technically) not necessary for this script. Though it cannot be left out. To do: fix possibility of running without CT available
