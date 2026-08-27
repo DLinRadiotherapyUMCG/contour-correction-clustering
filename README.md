@@ -129,8 +129,8 @@ Set `use_tuned_hyperparameters` to `false` and remove `paths.tuning_results` if 
 For a patient/OAR/cluster combination, the workflow writes:
 
 ```text
-HNC-B_<patient>_<oar>_<cluster>.nii.gz
-HNC-B_<patient>_<oar>_<cluster>_changed.nii.gz
+<patient>_<oar>_<cluster>.nii.gz
+<patient>_<oar>_<cluster>_changed.nii.gz
 ```
 
 It also writes `Statistics.xlsx` with spatial cluster results, spatial region results, volume results, and geometric accuracy results. 
