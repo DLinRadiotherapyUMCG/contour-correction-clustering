@@ -96,6 +96,21 @@ The following values are configured rather than optimised in the current impleme
 | `optimisation_goal` | `silhouette`, `db`, or `custom`. |
 | `alpha` | weighting of spatial coherence versus edit-feature coherence in the `custom` score, default `0.8`. |
 
+#### Custom scoring objective
+
+`custom` is the advised `optimisation_goal`, as used and explained in the accompanying paper (see Reference). When set, each trial is scored as:
+
+```text
+maximise ( alpha * S_cart_bar + (1 - alpha) * S_sph_bar - lambda * max(0, K - 30) )
+```
+
+- `S_cart_bar` — spatial coherence: silhouette score on each edit vector's origin `(px, py, pz)`, rescaled to [0,1]. Are edits in a cluster from the same anatomical area?
+- `S_sph_bar` — directional coherence: mean intra-cluster distance on each edit vector's `(r, theta, phi)`, rescaled to [0,1]. Do edits in a cluster point the same way, by a similar amount?
+- `K` — number of clusters; `lambda = 0.1` penalises trials with `K > 30` to discourage over-fragmentation.
+- `alpha` — fixed weight balancing the two coherence terms (see below).
+
+**`alpha`** controls how much spatial vs. directional coherence matters: `1` = location only, `0` = direction only. The default `0.8` favours location, so edits are grouped mainly by proximity, with direction as a secondary criterion. It's a fixed setting, not tuned by Optuna.
+
 The next workflow uses this CSV to select the highest-scoring parameter combination separately for each patient and OAR. At present, the optimisation implementation uses HDBSCAN for the trials; support for tuning DBSCAN separately can be added later if needed.
 
 ### Step 2: Generate alternatives
@@ -145,3 +160,7 @@ It also writes `Statistics.xlsx` with spatial cluster results, spatial region re
 
 ## Known limitations
 - The code now also needs a CT, this was necessary for other functionality that this script was used for and is (technically) not necessary for this script. Though it cannot be left out. To do: fix possibility of running without CT available
+
+## Reference
+
+van Aalst, J. et al. *Which Edits Matter? Simulating Realistic Local Corrections to Organ-of-Interest DL Segmentation and Predicting Dosimetric Impact.* MIART 2026 (submission).
