@@ -59,12 +59,12 @@ python optimise_clustering.py --config configs/my_config.json
 python generate_contour_alternatives_final.py --config configs/my_config.json
 ```
 
-### Functionality of the script
+## Functionality of the script
 The script has two functions, executed in two steps:
 1. Optimising the hyperparameter tuning for the clustering algorithm (using Optuna)
 2. Executing the clustering to generate contour alternatives
 
-## Step 1: Optimise clustering
+### Step 1: Optimise clustering
 
 Run [optimise_clustering.py](optimise_clustering.py). It calls the function `optimise_clustering(config)` from [workflows/optimise.py](src/contour_alternatives/workflows/optimise.py). It tests different clustering parameters separately for each patient and OAR, then writes `custom_tuning_results.csv` with the hyperparameter tuning results.
 
@@ -78,7 +78,7 @@ The clustering workflow:
     c. Repeat the trial process, with 50 trials by default.
 5. Write all trial results to `custom_tuning_results.csv` using semicolon separators.
 
-# Hyperparameters
+#### Hyperparameters
 
 Optuna searches for the optimal parameters for:
 | Parameter | Meaning |
@@ -98,7 +98,7 @@ The following values are configured rather than optimised in the current impleme
 
 The next workflow uses this CSV to select the highest-scoring parameter combination separately for each patient and OAR. At present, the optimisation implementation uses HDBSCAN for the trials; support for tuning DBSCAN separately can be added later if needed.
 
-## Step 2: Generate alternatives
+### Step 2: Generate alternatives
 
 Run [generate_contour_alternatives_final.py](generate_contour_alternatives_final.py). It calls `generate_contour_alternatives(config)` from [workflows/generate.py](src/contour_alternatives/workflows/generate.py). When `use_tuned_hyperparameters` is `true`, it reads the tuning CSV and selects the highest-scoring settings for each patient/OAR pair. When it is `false`, it uses the defaults in the workflow.
 
