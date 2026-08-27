@@ -78,7 +78,7 @@ The clustering workflow:
     c. Repeat the trial process, with 50 trials by default.
 5. Write all trial results to `custom_tuning_results.csv` using semicolon separators.
 
-The next workflow uses this CSV to select the highest-scoring parameter combination separately for each patient and OAR. At present, the optimisation implementation uses HDBSCAN for the trials; support for tuning DBSCAN separately can be added later if needed.
+The next workflow uses this CSV to select the highest-scoring parameter combination separately for each patient and OAR. 
 
 #### Hyperparameters
 
