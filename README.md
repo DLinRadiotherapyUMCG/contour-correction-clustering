@@ -1,7 +1,9 @@
 # Contour Alternatives
 
 Software for generating alternative segmentation contours based on clustering the total discrepancy between two segmentations into spatially and directionally coherent regions.
+This is the first release of the research code. For any questions or comments please contact :)
 
+Email: j.e.van.aalst@umcg.nl | joelle.vanaalst@live.nl
 
 ## Input layout
 
