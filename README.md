@@ -102,7 +102,8 @@ The generation workflow:
 5. Write the alternative and changed-region NIfTI files.
 6. Writes `Statistics.xlsx` in the alternatives directory with the robustness and geometry evaluation
 
-Important configuration fields are:
+## Config
+Both scripts expect a config file, with the following fields:
 
 | Field | Meaning |
 | --- | --- |
