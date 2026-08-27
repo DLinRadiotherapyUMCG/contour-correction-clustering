@@ -80,7 +80,7 @@ The clustering workflow:
 
 # Hyperparameters
 
-Optuna searches for:
+Optuna searches for the optimal parameters for:
 | Parameter | Meaning |
 | --- | --- |
 | `weight_spatial` | Weight applied to the spatial origin features |
